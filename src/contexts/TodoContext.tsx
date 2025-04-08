@@ -67,35 +67,15 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setActiveFilter(filter);
   };
 
-  // const reorderTodos = (result: DropResult) => {
-  //   const { destination, source } = result;
-  //   if (!destination) return;
-
-  //   const reordered = Array.from(todos);
-  //   const [removed] = reordered.splice(source.index, 1);
-  //   reordered.splice(destination.index, 0, removed);
-    
-  //   setTodos(reordered);
-  // };
-
   const reorderTodos = (result: DropResult) => {
-    console.log('Calling reorderTodos');
-    console.log(result);
-    const { destination, source, draggableId } = result;
+    const { destination, draggableId } = result;
 
-    // Should still only allow if filter is 'all', otherwise logic gets very complex
-    // to decide where an 'active' item should go within the 'all' list.
-    // If you MUST reorder within filtered views, the logic below needs refinement.
     if (!destination || activeFilter !== 'all') {
          return;
     }
 
     // Find the original index of the dragged item
     const sourceIndexOriginal = todos.findIndex(t => t.id === draggableId);
-
-    // Find the original index of the item that was *at* the destination
-    // This requires recreating the filtered list to find the ID at destination.index
-    // OR, if sticking to 'all' filter only, destination.index IS the target original index.
 
     // Assuming 'all' filter for simplicity:
     const destinationIndexOriginal = destination.index;
@@ -107,27 +87,6 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     reordered.splice(destinationIndexOriginal, 0, removed);
 
     setTodos(reordered);
-};
-
-const reorderTodosOther = (result: DropResult) => {
-  console.log('Calling reorderTodos');
-  console.log(result);
-  const { source, destination } = result;
-
-  if (!destination) return;
-
-  if (
-    destination.droppableId === source.droppableId &&
-    destination.index === source.index
-  ) {
-    return;
-  }
-
-  const items = Array.from(todos);
-  const [reorderedItem] = items.splice(source.index, 1);
-  items.splice(destination.index, 0, reorderedItem);
-
-  setTodos(items);
 };
 
   return (

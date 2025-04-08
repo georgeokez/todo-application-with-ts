@@ -7,8 +7,7 @@ import {
   Checkbox, 
   CheckIcon, 
   TodoText, 
-  DeleteButton,
-  DragHandle
+  DeleteButton
 } from './TodoItem.styles';
 
 interface Todo {

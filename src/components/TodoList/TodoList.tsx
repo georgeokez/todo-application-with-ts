@@ -2,11 +2,11 @@ import React from 'react';
 import { useTodo } from '../../contexts/TodoContext';
 import TodoItem from '../TodoItem';
 import { TodoListContainer, EmptyList } from './TodoList.styles';
-import { Droppable, DropResult } from 'react-beautiful-dnd';
+import { Droppable } from 'react-beautiful-dnd';
 
 
 const TodoList: React.FC = () => {
-  const { todos, activeFilter, reorderTodos, darkMode } = useTodo();
+  const { todos, activeFilter, darkMode } = useTodo();
   
   const filteredTodos = todos.filter(todo => {
     if (activeFilter === 'all') return true;
@@ -15,11 +15,6 @@ const TodoList: React.FC = () => {
     return true;
   });
 
-  const  handleDragEnd = (result: DropResult) => {
-    if (result.destination && activeFilter === 'all') {
-        reorderTodos(result);
-      }
-  }
 
   return (
     <Droppable droppableId="todos">
