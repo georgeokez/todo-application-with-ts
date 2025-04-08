@@ -1,25 +1,36 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { AppContainer, GlobalStyle, BackgroundDarkMode, BackgroundLightMode } from './style';
+import TodoInput from './components/TodoInput';
+import TodoFooter from './components/TodoFooter';  
+import TodoList from './components/TodoList';
+import { TodoProvider, useTodo } from './contexts/TodoContext';
+import TodoHeader from './components/TodoHeader';
+import { DragDropContext } from 'react-beautiful-dnd';
+
+const TodoApplication = () => {
+  const { darkMode, reorderTodos } = useTodo();
+  
+  return (
+    <>
+     <DragDropContext onDragEnd={reorderTodos}>
+        <GlobalStyle darkMode={darkMode} />
+        { darkMode ? <BackgroundDarkMode /> : <BackgroundLightMode />}
+          <AppContainer>
+            <TodoHeader />
+            <TodoInput />
+            <TodoList />
+          <TodoFooter />
+          </AppContainer>
+      </DragDropContext>
+    </>
+  );
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <TodoProvider>
+      <TodoApplication />
+    </TodoProvider>
   );
 }
 
